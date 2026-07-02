@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Cartable</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Cartable">
+<meta name="theme-color" content="#F6F5F1">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAACYklEQVR42u3cQUrDQBSAYRuCeIl21Rt0WbrvLRSP4cKFC49R9BbdB+8hFDyDuBAXQldSKjQz702+7wJJJn/eJEWcLZarK/hLZwkQB+JAHIgDcSAOxIE4EAfiAHEgDsSBOBAH4kAciANxIA4QB+JAHIgDcSAOxIE4EAfiAHEgDsSBOBAH4kAciINW9CUPtrl/q3Wdw27tZv/XrMw/qa2YhURCbytBygh1JuKIeD/0ESWOmHdCH75WCBxH5AfU8DA5EAfiQByIg/D6isd+//iuePT5dshykw77zVTiqNtERseOC1fSKSNjJa1NDllcsI8yI6RThhFSIY7jH08oI2kfPmWpFMewWxsbeYdHl/rsGXWFbSuIg1Bx2FOy7ywmB+JAHIgDcSAOxIE4EAfiQBwgDs7Xhz2z14eb6dyG2+dPccji1CVHS8S2Qp44Jjg2wl67yYE4aCCOmO/t07x2k4NUn7K/D5DfOcRhf/HOgTgQB+JAHCAOxIE4GFvcH8Ee766zLOLTy5c4ZHHqhNtLxLZCnjjSjY0GztzkQBw0HEfe1zovpExIH/YR9DuHOCa34rYVxIE4EAeIA3EgDsSBOBAH4kAciANxgDgQB+JAHIgDcSAOxIE4znPYb6xvAeOts8mBOIgWh50l755SYnLoI+/a2laoGofhkXRVu2auRBkXN1ssVyWvar4d3Nosj1nX8LUpI9nkMEUSPVE148DXCuJAHIgDxIE4EAfiQByIA3EgDsSBOBAHiANxIA7EgTgQB+JAHIgDcYA4EAfiQByIA3EgDsSBOBAHiANxIA7EgTgQB+IgnR/LEIHSN9LSRQAAAABJRU5ErkJggg==">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAACYklEQVR42u3cQUrDQBSAYRuCeIl21Rt0WbrvLRSP4cKFC49R9BbdB+8hFDyDuBAXQldSKjQz702+7wJJJn/eJEWcLZarK/hLZwkQB+JAHIgDcSAOxIE4EAfiAHEgDsSBOBAH4kAciANxIA4QB+JAHIgDcSAOxIE4EAfiAHEgDsSBOBAH4kAciINW9CUPtrl/q3Wdw27tZv/XrMw/qa2YhURCbytBygh1JuKIeD/0ESWOmHdCH75WCBxH5AfU8DA5EAfiQByIg/D6isd+//iuePT5dshykw77zVTiqNtERseOC1fSKSNjJa1NDllcsI8yI6RThhFSIY7jH08oI2kfPmWpFMewWxsbeYdHl/rsGXWFbSuIg1Bx2FOy7ywmB+JAHIgDcSAOxIE4EAfiQBwgDs7Xhz2z14eb6dyG2+dPccji1CVHS8S2Qp44Jjg2wl67yYE4aCCOmO/t07x2k4NUn7K/D5DfOcRhf/HOgTgQB+JAHCAOxIE4GFvcH8Ee766zLOLTy5c4ZHHqhNtLxLZCnjjSjY0GztzkQBw0HEfe1zovpExIH/YR9DuHOCa34rYVxIE4EAeIA3EgDsSBOBAH4kAciANxgDgQB+JAHIgDcSAOxIE4znPYb6xvAeOts8mBOIgWh50l755SYnLoI+/a2laoGofhkXRVu2auRBkXN1ssVyWvar4d3Nosj1nX8LUpI9nkMEUSPVE148DXCuJAHIgDxIE4EAfiQByIA3EgDsSBOBAHiANxIA7EgTgQB+JAHIgDcYA4EAfiQByIA3EgDsSBOBAHiANxIA7EgTgQB+IgnR/LEIHSN9LSRQAAAABJRU5ErkJggg==">
+<style>
+:root{
+  --bg:#F6F5F1; --ink:#1E2433; --ink-soft:#5A6172; --line:#E3E1D9;
+  --card:#FFFFFF; --accent:#2F5DFF; --danger:#D9494F;
+  --safe-top:env(safe-area-inset-top,0px); --safe-bot:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0; padding:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  overscroll-behavior-y:none;}
+button{font-family:inherit;}
+#app{max-width:520px; margin:0 auto; min-height:100vh; padding-bottom:calc(110px + var(--safe-bot));}
+
+/* ---------- Header ---------- */
+.header{position:sticky; top:0; z-index:10; background:var(--bg);
+  padding:calc(16px + var(--safe-top)) 18px 10px;}
+.eyebrow{font-size:12px; letter-spacing:1.5px; text-transform:uppercase;
+  color:var(--ink-soft); font-weight:600;}
+.title{font-size:26px; font-weight:800; letter-spacing:-.5px; margin-top:2px;}
+.subhead{display:flex; align-items:center; gap:8px;}
+.subhead .name{font-size:20px; font-weight:750; flex:1; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis;}
+.iconbtn{background:var(--card); border:1px solid var(--line); border-radius:10px;
+  width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+  color:var(--ink); cursor:pointer; flex-shrink:0;}
+.searchwrap{position:relative; margin-top:12px;}
+.searchwrap svg{position:absolute; left:12px; top:11px; color:var(--ink-soft);}
+input,textarea{width:100%; padding:12px 14px; border-radius:12px;
+  border:1px solid var(--line); font-size:16px; color:var(--ink);
+  background:#FBFAF7; outline:none; font-family:inherit;}
+input:focus,textarea:focus{border-color:var(--accent);}
+#search{padding-left:38px; background:var(--card);}
+.clearbtn{position:absolute; right:6px; top:6px; background:none; border:none;
+  color:var(--ink-soft); padding:6px; cursor:pointer; display:none;}
+
+/* ---------- Folders grid ---------- */
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:8px 18px;}
+.foldercard{cursor:pointer; position:relative;}
+.folder-tab{width:46%; height:12px; border-radius:8px 8px 0 0; margin-left:10px; opacity:.9;}
+.folder-body{border:1px solid var(--line); border-radius:4px 12px 12px 12px;
+  padding:14px 12px 12px; min-height:88px; display:flex; flex-direction:column;
+  justify-content:space-between; border-top-width:3px; border-top-style:solid;}
+.folder-top{display:flex; justify-content:space-between; align-items:flex-start; gap:6px;}
+.folder-name{font-weight:650; font-size:15px; line-height:1.25; word-break:break-word;}
+.folder-count{font-size:12px; color:var(--ink-soft); margin-top:8px;}
+.menudots{background:none; border:none; color:var(--ink-soft); padding:2px;
+  margin-top:-2px; cursor:pointer;}
+
+/* ---------- Items list ---------- */
+.list{border-radius:14px; overflow:hidden; border:1px solid var(--line);
+  margin:8px 18px 0;}
+.item{display:flex; align-items:center; gap:12px; padding:13px 14px;
+  background:var(--card); border-bottom:1px solid var(--line); cursor:pointer;}
+.item:last-child{border-bottom:none;}
+.item-ic{width:38px; height:38px; border-radius:10px; display:flex;
+  align-items:center; justify-content:center; flex-shrink:0;}
+.item-main{flex:1; min-width:0;}
+.item-name{font-size:15px; font-weight:550; white-space:nowrap; overflow:hidden;
+  text-overflow:ellipsis;}
+.item-meta{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+.resultcount{font-size:13px; color:var(--ink-soft); margin:8px 20px;}
+
+/* ---------- Empty states ---------- */
+.empty{text-align:center; padding:60px 30px; color:var(--ink-soft);}
+.empty .emoji{font-size:40px;}
+.empty .big{font-size:16px; font-weight:650; color:var(--ink); margin-top:10px;}
+.empty .small{font-size:14px; margin-top:6px; line-height:1.5;}
+
+/* ---------- FAB ---------- */
+#fab{position:fixed; bottom:calc(24px + var(--safe-bot)); right:20px;
+  width:58px; height:58px; border-radius:20px; background:var(--ink); color:#fff;
+  border:none; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 8px 24px rgba(30,36,51,.35); z-index:20; cursor:pointer;}
+
+/* ---------- Sheet ---------- */
+.sheet-backdrop{position:fixed; inset:0; z-index:50; background:rgba(20,24,35,.45);
+  display:none;}
+.sheet{position:fixed; bottom:0; left:0; right:0; z-index:51; background:var(--card);
+  border-radius:20px 20px 0 0; padding:10px 18px calc(28px + var(--safe-bot));
+  max-height:85vh; overflow-y:auto; display:none; max-width:520px; margin:0 auto;}
+.sheet .grab{width:40px; height:4px; border-radius:2px; background:var(--line);
+  margin:6px auto 14px;}
+.sheet .sheet-title{font-size:17px; font-weight:700; margin-bottom:14px;}
+.btn{width:100%; padding:13px 16px; border-radius:12px; border:1px solid var(--line);
+  background:var(--card); color:var(--ink); font-size:15px; font-weight:600;
+  margin-top:10px; cursor:pointer; text-align:center;}
+.btn.primary{background:var(--accent); color:#fff; border:none;}
+.btn.danger-text{color:var(--danger);}
+.btn.danger{background:var(--danger); color:#fff; border:none;}
+.btn.row{display:flex; align-items:center; gap:14px; text-align:left;}
+.opt-ic{width:42px; height:42px; border-radius:12px; display:flex;
+  align-items:center; justify-content:center; flex-shrink:0;}
+.opt-label{font-size:15px; font-weight:650;}
+.opt-desc{font-size:13px; color:var(--ink-soft); margin-top:2px;}
+.colors{display:flex; gap:10px; margin-top:14px;}
+.colorpick{width:34px; height:34px; border-radius:50%; border:3px solid transparent;
+  cursor:pointer;}
+.colorpick.sel{border-color:var(--ink);}
+.hint{font-size:14px; color:var(--ink-soft); line-height:1.5;}
+.chip{width:12px; height:12px; border-radius:4px; display:inline-block; flex-shrink:0;}
+
+/* ---------- Viewer ---------- */
+#viewer{position:fixed; inset:0; background:var(--bg); z-index:70; display:none;
+  flex-direction:column;}
+#viewer .vhead{display:flex; align-items:center; gap:10px;
+  padding:calc(12px + var(--safe-top)) 16px 12px; border-bottom:1px solid var(--line);
+  background:var(--card);}
+#viewer .vtitle{font-size:16px; font-weight:700; flex:1; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis;}
+#viewer .vbody{flex:1; overflow:auto; -webkit-overflow-scrolling:touch;}
+#viewer .vbody.note{padding:16px calc(16px) calc(16px + var(--safe-bot));}
+#viewer textarea{min-height:55vh; background:var(--card); line-height:1.6; resize:none;}
+#viewer img{width:100%; display:block;}
+#viewer iframe{width:100%; height:100%; border:none; min-height:80vh;}
+
+/* ---------- Toast ---------- */
+#toast{position:fixed; bottom:calc(96px + var(--safe-bot)); left:50%;
+  transform:translateX(-50%); background:var(--ink); color:#fff; padding:10px 18px;
+  border-radius:999px; font-size:14px; z-index:80; white-space:nowrap;
+  display:none; box-shadow:0 6px 18px rgba(0,0,0,.25);}
+
+@media (prefers-reduced-motion:no-preference){
+  .sheet{animation:up .22s ease;}
+  @keyframes up{from{transform:translateY(30px); opacity:.6;} to{transform:none; opacity:1;}}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="header" id="header"></div>
+  <div id="content"></div>
+</div>
+
+<button id="fab" aria-label="Ajouter">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+</button>
+
+<div class="sheet-backdrop" id="backdrop"></div>
+<div class="sheet" id="sheet"></div>
+<div id="viewer"></div>
+<div id="toast"></div>
+<input type="file" id="filepick" style="display:none">
+
+<script>
+/* ================= Constantes ================= */
+const FOLDER_COLORS = [
+  {c:"#3B6CF6", soft:"#E8EEFE"}, {c:"#2E9E6B", soft:"#E5F5ED"},
+  {c:"#E8842C", soft:"#FCEFE1"}, {c:"#D9494F", soft:"#FBE7E8"},
+  {c:"#7A4FD0", soft:"#F0EAFB"}, {c:"#D9A404", soft:"#FAF3D9"},
+];
+const MAX_FILE_MB = 25;
+const uid = () => Math.random().toString(36).slice(2,10) + Date.now().toString(36);
+const esc = s => String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const fmtSize = b => !b ? "" : b<1024 ? b+" o" : b<1048576 ? (b/1024).toFixed(0)+" Ko" : (b/1048576).toFixed(1)+" Mo";
+const fmtDate = ts => new Date(ts).toLocaleDateString("fr-FR",{day:"numeric",month:"short"});
+
+const IC = {
+  back:'<path d="M15 18l-6-6 6-6"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+  note:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M8 13h8M8 17h5"/>',
+  link:'<path d="M10 14a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 10a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7L12 18"/>',
+  file:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/>',
+  image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/>',
+  dots:'<circle cx="12" cy="5" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="19" r="1.6" fill="currentColor" stroke="none"/>',
+  download:'<path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
+};
+const svg = (name, size=20, sw=1.8) =>
+  `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${IC[name]}</svg>`;
+
+/* ================= IndexedDB ================= */
+let db;
+function openDB(){
+  return new Promise((res,rej)=>{
+    const rq = indexedDB.open("cartable", 1);
+    rq.onupgradeneeded = e => {
+      const d = e.target.result;
+      if(!d.objectStoreNames.contains("meta")) d.createObjectStore("meta");
+      if(!d.objectStoreNames.contains("files")) d.createObjectStore("files");
+    };
+    rq.onsuccess = e => { db = e.target.result; res(); };
+    rq.onerror = () => rej(rq.error);
+  });
+}
+const tx = (store, mode) => db.transaction(store, mode).objectStore(store);
+const idbGet = (store,key) => new Promise((res,rej)=>{ const r=tx(store,"readonly").get(key); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); });
+const idbSet = (store,key,val) => new Promise((res,rej)=>{ const r=tx(store,"readwrite").put(val,key); r.onsuccess=()=>res(); r.onerror=()=>rej(r.error); });
+const idbDel = (store,key) => new Promise((res,rej)=>{ const r=tx(store,"readwrite").delete(key); r.onsuccess=()=>res(); r.onerror=()=>rej(r.error); });
+
+/* ================= État ================= */
+let data = { folders:[], items:[] };
+let view = { page:"home", folderId:null };
+let search = "";
+
+async function load(){
+  const saved = await idbGet("meta","index");
+  if(saved) data = saved;
+}
+async function persist(){ await idbSet("meta","index", data); }
+
+/* ================= UI helpers ================= */
+const $ = id => document.getElementById(id);
+let toastTimer;
+function notify(msg){
+  const t = $("toast"); t.textContent = msg; t.style.display = "block";
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.style.display="none", 2200);
+}
+function openSheet(html){
+  $("sheet").innerHTML = '<div class="grab"></div>' + html;
+  $("sheet").style.display = "block";
+  $("backdrop").style.display = "block";
+}
+function closeSheet(){
+  $("sheet").style.display = "none";
+  $("backdrop").style.display = "none";
+}
+$("backdrop").addEventListener("click", closeSheet);
+
+/* ================= Rendu ================= */
+function itemKind(it){
+  if(it.type==="note") return {ic:"note", c:"#7A4FD0"};
+  if(it.type==="link") return {ic:"link", c:"#2E9E6B"};
+  if(it.mime && it.mime.startsWith("image/")) return {ic:"image", c:"#E8842C"};
+  return {ic:"file", c:"#3B6CF6"};
+}
+
+function render(){
+  const folders = data.folders, items = data.items;
+  const cur = folders.find(f=>f.id===view.folderId);
+
+  // Header
+  let h = "";
+  if(view.page==="home"){
+    h = `<div class="eyebrow">Mes cours</div><div class="title">Cartable</div>`;
+  } else {
+    h = `<div class="subhead">
+      <button class="iconbtn" onclick="goHome()">${svg("back",18)}</button>
+      <div class="name">${esc(cur ? cur.name : "")}</div>
+    </div>`;
+  }
+  h += `<div class="searchwrap">${svg("search",17)}
+    <input id="search" placeholder="Rechercher dans tous les cours…" value="${esc(search)}">
+    <button class="clearbtn" id="clearsearch" style="display:${search?'block':'none'}">${svg("x",16)}</button>
+  </div>`;
+  $("header").innerHTML = h;
+  const si = $("search");
+  si.addEventListener("input", e => { search = e.target.value; renderContent(); $("clearsearch").style.display = search?'block':'none'; $("fab").style.display = search.trim()?'none':'flex'; });
+  $("clearsearch").addEventListener("click", ()=>{ search=""; render(); });
+
+  $("fab").style.display = search.trim() ? "none" : "flex";
+  renderContent();
+}
+
+function renderContent(){
+  const folders = data.folders, items = data.items;
+  const c = $("content");
+
+  if(search.trim()){
+    const q = search.toLowerCase();
+    const res = items.filter(i=>i.name.toLowerCase().includes(q));
+    c.innerHTML = `<div class="resultcount">${res.length} résultat${res.length>1?"s":""}</div>
+      <div class="list">${res.map(itemRowHTML).join("") ||
+        '<div class="item" style="cursor:default;color:var(--ink-soft);font-size:14px;justify-content:center">Aucun élément trouvé.</div>'}</div>`;
+    bindItemRows(res);
+    return;
+  }
+
+  if(view.page==="home"){
+    if(folders.length===0){
+      c.innerHTML = `<div class="empty"><div class="emoji">📚</div>
+        <div class="big">Ton cartable est vide</div>
+        <div class="small">Crée un premier dossier pour une matière : Métrologie, Réseaux, Méca…</div></div>`;
+      return;
+    }
+    c.innerHTML = `<div class="grid">` + folders.map(f=>{
+      const col = FOLDER_COLORS.find(x=>x.c===f.color) || FOLDER_COLORS[0];
+      const n = items.filter(i=>i.folderId===f.id).length;
+      return `<div class="foldercard" data-id="${f.id}">
+        <div class="folder-tab" style="background:${col.c}"></div>
+        <div class="folder-body" style="background:${col.soft}; border-top-color:${col.c}">
+          <div class="folder-top">
+            <div class="folder-name">${esc(f.name)}</div>
+            <button class="menudots" data-menu="${f.id}">${svg("dots",18)}</button>
+          </div>
+          <div class="folder-count">${n===0?"Vide":n===1?"1 élément":n+" éléments"}</div>
+        </div>
+      </div>`;
+    }).join("") + `</div>`;
+    c.querySelectorAll(".foldercard").forEach(el=>{
+      el.addEventListener("click", ()=>{ view={page:"folder",folderId:el.dataset.id}; render(); });
+    });
+    c.querySelectorAll(".menudots").forEach(el=>{
+      el.addEventListener("click", e=>{ e.stopPropagation(); folderMenu(el.dataset.menu); });
+    });
+  } else {
+    const list = items.filter(i=>i.folderId===view.folderId).sort((a,b)=>b.createdAt-a.createdAt);
+    if(list.length===0){
+      c.innerHTML = `<div class="empty"><div class="emoji">🗂️</div>
+        <div class="small">Dossier vide. Ajoute une note, un lien ou un fichier avec le bouton +.</div></div>`;
+      return;
+    }
+    c.innerHTML = `<div class="list">${list.map(itemRowHTML).join("")}</div>`;
+    bindItemRows(list);
+  }
+}
+
+function itemRowHTML(it){
+  const k = itemKind(it);
+  return `<div class="item" data-id="${it.id}">
+    <div class="item-ic" style="background:${k.c}1A;color:${k.c}">${svg(k.ic,19)}</div>
+    <div class="item-main">
+      <div class="item-name">${esc(it.name)}</div>
+      <div class="item-meta">${fmtDate(it.createdAt)}${it.size?" · "+fmtSize(it.size):""}${it.type==="link"?" · lien":""}</div>
+    </div>
+    <button class="menudots" data-menu="${it.id}">${svg("dots",18)}</button>
+  </div>`;
+}
+function bindItemRows(list){
+  document.querySelectorAll(".item[data-id]").forEach(el=>{
+    el.addEventListener("click", ()=> openItem(list.find(i=>i.id===el.dataset.id)));
+  });
+  document.querySelectorAll(".item .menudots").forEach(el=>{
+    el.addEventListener("click", e=>{ e.stopPropagation(); itemMenu(el.dataset.menu); });
+  });
+}
+function goHome(){ view={page:"home",folderId:null}; search=""; render(); }
+
+/* ================= Dossiers ================= */
+$("fab").addEventListener("click", ()=>{
+  if(view.page==="home") newFolderSheet(); else addItemSheet();
+});
+
+function newFolderSheet(){
+  let color = FOLDER_COLORS[0].c;
+  openSheet(`<div class="sheet-title">Nouveau dossier</div>
+    <input id="fname" placeholder="Nom de la matière (ex : Métrologie)">
+    <div class="colors">${FOLDER_COLORS.map((f,i)=>
+      `<button class="colorpick ${i===0?'sel':''}" data-c="${f.c}" style="background:${f.c}"></button>`).join("")}</div>
+    <button class="btn primary" id="createf">Créer le dossier</button>`);
+  document.querySelectorAll(".colorpick").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      document.querySelectorAll(".colorpick").forEach(x=>x.classList.remove("sel"));
+      b.classList.add("sel"); color = b.dataset.c;
+    });
+  });
+  $("fname").focus();
+  $("createf").addEventListener("click", async ()=>{
+    const name = $("fname").value.trim();
+    if(!name) return;
+    data.folders.push({id:uid(), name, color, createdAt:Date.now()});
+    await persist(); closeSheet(); render();
+  });
+}
+
+function folderMenu(id){
+  const f = data.folders.find(x=>x.id===id);
+  openSheet(`<div class="sheet-title">${esc(f.name)}</div>
+    <button class="btn" id="rn">Renommer</button>
+    <button class="btn danger-text" id="del">Supprimer le dossier</button>`);
+  $("rn").addEventListener("click", ()=>{
+    openSheet(`<div class="sheet-title">Renommer</div>
+      <input id="fname" value="${esc(f.name)}">
+      <button class="btn primary" id="save">Enregistrer</button>`);
+    $("fname").focus();
+    $("save").addEventListener("click", async ()=>{
+      f.name = $("fname").value.trim() || f.name;
+      await persist(); closeSheet(); render();
+    });
+  });
+  $("del").addEventListener("click", ()=>{
+    openSheet(`<div class="sheet-title">${esc(f.name)}</div>
+      <div class="hint">Le dossier et tout son contenu seront supprimés définitivement.</div>
+      <button class="btn danger" id="yes">Oui, supprimer</button>
+      <button class="btn" id="no">Annuler</button>`);
+    $("no").addEventListener("click", closeSheet);
+    $("yes").addEventListener("click", async ()=>{
+      const gone = data.items.filter(i=>i.folderId===id && i.type==="file");
+      for(const it of gone){ try{ await idbDel("files", it.id); }catch(e){} }
+      data.folders = data.folders.filter(x=>x.id!==id);
+      data.items = data.items.filter(i=>i.folderId!==id);
+      await persist(); closeSheet();
+      if(view.folderId===id) view={page:"home",folderId:null};
+      render(); notify("Dossier supprimé");
+    });
+  });
+}
+
+/* ================= Ajouts ================= */
+function addItemSheet(){
+  const opt = (ic, c, label, desc, id) =>
+    `<button class="btn row" id="${id}">
+      <div class="opt-ic" style="background:${c}1A;color:${c}">${svg(ic,21)}</div>
+      <div><div class="opt-label">${label}</div><div class="opt-desc">${desc}</div></div>
+    </button>`;
+  openSheet(`<div class="sheet-title">Ajouter au dossier</div>
+    ${opt("file","#3B6CF6","Fichier",`PDF, image, doc… (max ${MAX_FILE_MB} Mo)`,"addfile")}
+    ${opt("note","#7A4FD0","Note","Prise de notes rapide","addnote")}
+    ${opt("link","#2E9E6B","Lien","Drive, Moodle, vidéo, site…","addlink")}`);
+  $("addfile").addEventListener("click", ()=>{ closeSheet(); $("filepick").click(); });
+  $("addnote").addEventListener("click", newNoteSheet);
+  $("addlink").addEventListener("click", newLinkSheet);
+}
+
+$("filepick").addEventListener("change", async e=>{
+  const f = e.target.files && e.target.files[0];
+  e.target.value = "";
+  if(!f) return;
+  if(f.size > MAX_FILE_MB*1048576){ notify(`Fichier trop lourd (max ${MAX_FILE_MB} Mo)`); return; }
+  const id = uid();
+  try{
+    await idbSet("files", id, f); // Blob stocké tel quel
+    data.items.push({id, folderId:view.folderId, type:"file", name:f.name, mime:f.type, size:f.size, createdAt:Date.now()});
+    await persist(); render(); notify("Fichier ajouté");
+  }catch(err){ notify("Échec de l'enregistrement"); }
+});
+
+function newNoteSheet(){
+  openSheet(`<div class="sheet-title">Nouvelle note</div>
+    <input id="nname" placeholder="Titre de la note">
+    <textarea id="ncontent" rows="6" placeholder="Contenu…" style="margin-top:10px"></textarea>
+    <button class="btn primary" id="create">Créer la note</button>`);
+  $("nname").focus();
+  $("create").addEventListener("click", async ()=>{
+    const name = $("nname").value.trim();
+    if(!name) return;
+    data.items.push({id:uid(), folderId:view.folderId, type:"note", name, content:$("ncontent").value, createdAt:Date.now()});
+    await persist(); closeSheet(); render();
+  });
+}
+
+function newLinkSheet(){
+  openSheet(`<div class="sheet-title">Nouveau lien</div>
+    <input id="lurl" placeholder="URL (Drive, Moodle, YouTube…)" inputmode="url">
+    <input id="lname" placeholder="Nom (optionnel)" style="margin-top:10px">
+    <button class="btn primary" id="create">Ajouter le lien</button>`);
+  $("lurl").focus();
+  $("create").addEventListener("click", async ()=>{
+    let url = $("lurl").value.trim();
+    if(!url) return;
+    if(!/^https?:\/\//i.test(url)) url = "https://" + url;
+    data.items.push({id:uid(), folderId:view.folderId, type:"link", name:$("lname").value.trim()||url, url, createdAt:Date.now()});
+    await persist(); closeSheet(); render();
+  });
+}
+
+/* ================= Menu élément ================= */
+function itemMenu(id){
+  const it = data.items.find(x=>x.id===id);
+  openSheet(`<div class="sheet-title">${esc(it.name)}</div>
+    <button class="btn" id="rn">Renommer</button>
+    <button class="btn" id="mv">Déplacer vers…</button>
+    <button class="btn danger-text" id="del">Supprimer</button>`);
+  $("rn").addEventListener("click", ()=>{
+    openSheet(`<div class="sheet-title">Renommer</div>
+      <input id="iname" value="${esc(it.name)}">
+      <button class="btn primary" id="save">Enregistrer</button>`);
+    $("iname").focus();
+    $("save").addEventListener("click", async ()=>{
+      it.name = $("iname").value.trim() || it.name;
+      await persist(); closeSheet(); render();
+    });
+  });
+  $("mv").addEventListener("click", ()=>{
+    const others = data.folders.filter(f=>f.id!==it.folderId);
+    openSheet(`<div class="sheet-title">Déplacer vers…</div>` +
+      (others.length ? others.map(f=>
+        `<button class="btn row" data-f="${f.id}"><span class="chip" style="background:${f.color}"></span>${esc(f.name)}</button>`).join("")
+        : `<div class="hint">Aucun autre dossier disponible.</div>`));
+    document.querySelectorAll("[data-f]").forEach(b=>{
+      b.addEventListener("click", async ()=>{
+        it.folderId = b.dataset.f;
+        await persist(); closeSheet(); render(); notify("Déplacé");
+      });
+    });
+  });
+  $("del").addEventListener("click", async ()=>{
+    if(it.type==="file"){ try{ await idbDel("files", it.id); }catch(e){} }
+    data.items = data.items.filter(x=>x.id!==it.id);
+    await persist(); closeSheet(); render(); notify("Supprimé");
+  });
+}
+
+/* ================= Ouverture / Viewer ================= */
+let currentObjectURL = null;
+async function openItem(it){
+  if(!it) return;
+  if(it.type==="link"){ window.open(it.url, "_blank"); return; }
+
+  const v = $("viewer");
+  const head = (extra="") => `<div class="vhead">
+    <button class="iconbtn" id="vclose">${svg("back",18)}</button>
+    <div class="vtitle">${esc(it.name)}</div>${extra}</div>`;
+
+  if(it.type==="note"){
+    v.innerHTML = head() + `<div class="vbody note">
+      <textarea id="vtext">${esc(it.content||"")}</textarea>
+      <button class="btn primary" id="vsave">Enregistrer la note</button></div>`;
+    v.style.display = "flex";
+    $("vclose").addEventListener("click", closeViewer);
+    $("vsave").addEventListener("click", async ()=>{
+      it.content = $("vtext").value;
+      await persist(); notify("Note enregistrée");
+    });
+    return;
+  }
+
+  // fichier
+  let blob;
+  try{ blob = await idbGet("files", it.id); }catch(e){}
+  if(!blob){ notify("Contenu introuvable"); return; }
+  if(currentObjectURL) URL.revokeObjectURL(currentObjectURL);
+  currentObjectURL = URL.createObjectURL(blob);
+  const dl = `<a class="iconbtn" id="vdl" href="${currentObjectURL}" download="${esc(it.name)}">${svg("download",18)}</a>`;
+
+  const isImg = it.mime && it.mime.startsWith("image/");
+  const isPdf = it.mime === "application/pdf";
+  let body;
+  if(isImg) body = `<div class="vbody"><img src="${currentObjectURL}" alt="${esc(it.name)}"></div>`;
+  else if(isPdf) body = `<div class="vbody"><iframe src="${currentObjectURL}" title="${esc(it.name)}"></iframe></div>`;
+  else body = `<div class="vbody"><div class="empty"><div class="small">Aperçu indisponible pour ce type de fichier.<br>Utilise le bouton de téléchargement en haut à droite.</div></div></div>`;
+
+  v.innerHTML = head(dl) + body;
+  v.style.display = "flex";
+  $("vclose").addEventListener("click", closeViewer);
+}
+function closeViewer(){
+  $("viewer").style.display = "none";
+  $("viewer").innerHTML = "";
+  if(currentObjectURL){ URL.revokeObjectURL(currentObjectURL); currentObjectURL = null; }
+}
+
+/* ================= Init ================= */
+(async ()=>{
+  try{
+    await openDB();
+    await load();
+    // demande de stockage persistant (évite le nettoyage automatique par iOS)
+    if(navigator.storage && navigator.storage.persist){
+      try{ await navigator.storage.persist(); }catch(e){}
+    }
+  }catch(e){ console.error(e); }
+  render();
+})();
+</script>
+</body>
+</html>
